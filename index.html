@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>CE Visit Tracker</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js">
+const engineerList = [
+  "aje.johns1", "anwesh-kumar.sahoo", "ayush.garg1", "chanakya.t-r", "diksha-charduatta.natekar",
+  "divya.lakhe", "gauresh.pundlikrao-khope", "hungsaming.n-h", "imran-mohammad.khan", "ishika-rakesh.bansal",
+  "ishwari.deepak-bhorekar", "manav.mehra", "mrinalc", "naresh-laxman.adpoikar", "nilambari.rajendra-todakari",
+  "raghupathi-raju.addepall", "rajesh.banik", "ruturaj.varne", "sakshi.pore", "satnamsingh.surendrasing-relusinghani",
+  "sejal-sandip.mhadgut", "shraddha-harshitkumar.wakode", "shruti.mishra", "shweta.pujari",
+  "simran.jilani-sayyad", "gavade.suryakant", "swarali.shashank-tantak", "tazeen.gulrez-sayed",
+  "vaishnavi.mahajan", "vinit.takhtani"
+];
+
+
+function editEngineer(caseNumber, currentEngineer) {
+  const dropdown = document.createElement("select");
+  dropdown.innerHTML = engineerList.map(name =>
+    `<option value="${name}" ${name === currentEngineer ? "selected" : ""}>${name}</option>`
+  ).join("");
+  dropdown.onchange = () => {
+    const selected = dropdown.value;
+    firebase.database().ref("cases/" + caseNumber).update({
+      engineer: selected
+    });
+  };
+  const span = document.getElementById(`engineer-${caseNumber}`);
+  span.replaceWith(dropdown);
+}
+
+function promptDropdown(label) {
+  return new Promise(resolve => {
+    const form = document.createElement("form");
+    form.innerHTML = `
+      <label>${label}</label><br>
+      <select id="engDropdown">${engineerList.map(e => `<option value="${e}">${e}</option>`)}</select>
+      <br><br><button type="submit">OK</button>
+    `;
+    const modal = document.createElement("div");
+    modal.style.position = "fixed";
+    modal.style.top = "30%";
+    modal.style.left = "50%";
+    modal.style.transform = "translateX(-50%)";
+    modal.style.background = "white";
+    modal.style.border = "1px solid #ccc";
+    modal.style.padding = "1rem";
+    modal.style.zIndex = "2000";
+    modal.appendChild(form);
+    document.body.appendChild(modal);
+
+    form.onsubmit = e => {
+      e.preventDefault();
+      const selected = document.getElementById("engDropdown").value;
+      document.body.removeChild(modal);
+      resolve(selected);
+    };
+  });
+}
+
+</script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js">
+const engineerList = [
+  "aje.johns1", "anwesh-kumar.sahoo", "ayush.garg1", "chanakya.t-r", "diksha-charduatta.natekar",
+  "divya.lakhe", "gauresh.pundlikrao-khope", "hungsaming.n-h", "imran-mohammad.khan", "ishika-rakesh.bansal",
+  "ishwari.deepak-bhorekar", "manav.mehra", "mrinalc", "naresh-laxman.adpoikar", "nilambari.rajendra-todakari",
+  "raghupathi-raju.addepall", "rajesh.banik", "ruturaj.varne", "sakshi.pore", "satnamsingh.surendrasing-relusinghani",
+  "sejal-sandip.mhadgut", "shraddha-harshitkumar.wakode", "shruti.mishra", "shweta.pujari",
+  "simran.jilani-sayyad", "gavade.suryakant", "swarali.shashank-tantak", "tazeen.gulrez-sayed",
+  "vaishnavi.mahajan", "vinit.takhtani"
+];
+
+
+function editEngineer(caseNumber, currentEngineer) {
+  const dropdown = document.createElement("select");
+  dropdown.innerHTML = engineerList.map(name =>
+    `<option value="${name}" ${name === currentEngineer ? "selected" : ""}>${name}</option>`
+  ).join("");
+  dropdown.onchange = () => {
+    const selected = dropdown.value;
+    firebase.database().ref("cases/" + caseNumber).update({
+      engineer: selected
+    });
+  };
+  const span = document.getElementById(`engineer-${caseNumber}`);
+  span.replaceWith(dropdown);
+}
+
+function promptDropdown(label) {
+  return new Promise(resolve => {
+    const form = document.createElement("form");
+    form.innerHTML = `
+      <label>${label}</label><br>
+      <select id="engDropdown">${engineerList.map(e => `<option value="${e}">${e}</option>`)}</select>
+      <br><br><button type="submit">OK</button>
+    `;
+    const modal = document.createElement("div");
+    modal.style.position = "fixed";
+    modal.style.top = "30%";
+    modal.style.left = "50%";
+    modal.style.transform = "translateX(-50%)";
+    modal.style.background = "white";
+    modal.style.border = "1px solid #ccc";
+    modal.style.padding = "1rem";
+    modal.style.zIndex = "2000";
+    modal.appendChild(form);
+    document.body.appendChild(modal);
+
+    form.onsubmit = e => {
+      e.preventDefault();
+      const selected = document.getElementById("engDropdown").value;
+      document.body.removeChild(modal);
+      resolve(selected);
+    };
+  });
+}
+
+</script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js">
+const engineerList = [
+  "aje.johns1", "anwesh-kumar.sahoo", "ayush.garg1", "chanakya.t-r", "diksha-charduatta.natekar",
+  "divya.lakhe", "gauresh.pundlikrao-khope", "hungsaming.n-h", "imran-mohammad.khan", "ishika-rakesh.bansal",
+  "ishwari.deepak-bhorekar", "manav.mehra", "mrinalc", "naresh-laxman.adpoikar", "nilambari.rajendra-todakari",
+  "raghupathi-raju.addepall", "rajesh.banik", "ruturaj.varne", "sakshi.pore", "satnamsingh.surendrasing-relusinghani",
+  "sejal-sandip.mhadgut", "shraddha-harshitkumar.wakode", "shruti.mishra", "shweta.pujari",
+  "simran.jilani-sayyad", "gavade.suryakant", "swarali.shashank-tantak", "tazeen.gulrez-sayed",
+  "vaishnavi.mahajan", "vinit.takhtani"
+];
+
+
+function editEngineer(caseNumber, currentEngineer) {
+  const dropdown = document.createElement("select");
+  dropdown.innerHTML = engineerList.map(name =>
+    `<option value="${name}" ${name === currentEngineer ? "selected" : ""}>${name}</option>`
+  ).join("");
+  dropdown.onchange = () => {
+    const selected = dropdown.value;
+    firebase.database().ref("cases/" + caseNumber).update({
+      engineer: selected
+    });
+  };
+  const span = document.getElementById(`engineer-${caseNumber}`);
+  span.replaceWith(dropdown);
+}
+
+function promptDropdown(label) {
+  return new Promise(resolve => {
+    const form = document.createElement("form");
+    form.innerHTML = `
+      <label>${label}</label><br>
+      <select id="engDropdown">${engineerList.map(e => `<option value="${e}">${e}</option>`)}</select>
+      <br><br><button type="submit">OK</button>
+    `;
+    const modal = document.createElement("div");
+    modal.style.position = "fixed";
+    modal.style.top = "30%";
+    modal.style.left = "50%";
+    modal.style.transform = "translateX(-50%)";
+    modal.style.background = "white";
+    modal.style.border = "1px solid #ccc";
+    modal.style.padding = "1rem";
+    modal.style.zIndex = "2000";
+    modal.appendChild(form);
+    document.body.appendChild(modal);
+
+    form.onsubmit = e => {
+      e.preventDefault();
+      const selected = document.getElementById("engDropdown").value;
+      document.body.removeChild(modal);
+      resolve(selected);
+    };
+  });
+}
+
+</script>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Roboto', sans-serif;
+      background: #f5f7fa;
+      margin: 0;
+      padding: 2rem;
+      color: #333;
+    }
+    .container {
+      max-width: 960px;
+      margin: auto;
+      background: #fff;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }
+    h2 {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.5rem;
+    }
+    label {
+      font-weight: bold;
+      margin-top: 1rem;
+      display: block;
+    }
+    input, textarea, button {
+      width: 100%;
+      padding: 0.6rem;
+      margin-top: 0.25rem;
+      font-size: 1rem;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+    }
+    input:focus, textarea:focus {
+      outline: none;
+      border-color: #007bff;
+    }
+    button {
+      width: auto;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      margin-top: 1rem;
+      padding: 0.5rem 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      border-radius: 6px;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    .secondary-button {
+      background-color: #6c757d;
+    }
+    .secondary-button:hover {
+      background-color: #495057;
+    }
+    table {
+      margin-top: 2rem;
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.95rem;
+    }
+    th, td {
+      padding: 0.75rem;
+      border: 1px solid #ddd;
+      text-align: left;
+    }
+    th {
+      background-color: #f1f3f5;
+    }
+    tr:nth-child(even) {
+      background-color: #f9fafb;
+    }
+    tr:hover {
+      background-color: #f1f9ff;
+    }
+    .alert {
+      position: fixed;
+      top: 20%;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #fff3cd;
+      color: #856404;
+      padding: 1.5rem;
+      border: 1px solid #ffeeba;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.15);
+      display: none;
+      z-index: 1000;
+      animation: slideDown 0.3s ease-out;
+    }
+    @keyframes slideDown {
+      from { transform: translate(-50%, -20px); opacity: 0; }
+      to { transform: translate(-50%, 0); opacity: 1; }
+    }
+    .alert button {
+      margin-top: 1rem;
+      background: #856404;
+      color: white;
+      border: none;
+    }
+    .actions {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .remarks-cell {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .remarks-cell button {
+      margin-left: 1rem;
+      padding: 0.25rem 0.5rem;
+      font-size: 0.85rem;
+    }
+  </style>
+</head>
+<body onload="checkUserAccess()">
+<div class="container">
+  <h2>
+    CE Visit Scheduler North America Storage
+    <button onclick="toggleSort()" class="secondary-button">Sort by Visit Date 🔽</button>
+  </h2>
+  <label>Case Number (10 digits):</label>
+  <input type="text" id="caseNumber" maxlength="10" pattern="\d{10}" placeholder="Enter 10-digit case number">
+  <label>CE Visit Date (DD / MM):</label>
+  <input type="text" id="visitDate" placeholder="e.g. 08 / 05">
+  <label>CE Visit Time:</label>
+  <input type="time" id="visitTime">
+  <label>Remarks:</label>
+  <textarea id="remarks" placeholder="Enter remarks"></textarea>
+  <div class="actions">
+    <button onclick="addCase()">Add Case</button>
+    <button onclick="downloadExcel()" class="secondary-button">Download Excel Report</button>
+  </div>
+  <table>
+    <thead>
+      <tr>
+        <th>Case Number</th>
+        <th>Visit Date & Time (IST)</th>
+        <th>Remarks</th>
+        <th>Status</th>
+        <th>Engineer</th>
+      </tr>
+    </thead>
+    <tbody id="caseTableBody"></tbody>
+  </table>
+</div>
+<div id="alertBox" class="alert">
+  <p id="alertText"></p>
+  <button onclick="acknowledgeAlert()">Acknowledge</button>
+</div>
+<audio id="alertSound" src="https://actions.google.com/sounds/v1/alarms/alarm_clock.ogg" preload="auto"></audio>
+<script>
+  function checkUserAccess() {
+    const allowedNames = ["swaraj", "raghu", "chanakya", "rugved"];
+    let user = prompt("Enter your name:");
+    if (!user || !allowedNames.includes(user.trim().toLowerCase())) {
+      document.body.innerHTML = "<h2 style='color:red;'>Access Denied</h2>";
+    }
+  }
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyDLwz9RAWOZRXjUGxFPM2OU2xDpMvNHDMc",
+    authDomain: "da-nastorage.firebaseapp.com",
+    databaseURL: "https://da-nastorage-default-rtdb.firebaseio.com",
+    projectId: "da-nastorage",
+    storageBucket: "da-nastorage.appspot.com",
+    messagingSenderId: "503955932158",
+    appId: "1:503955932158:web:9713ab1a0b2e7acc5c36af",
+    measurementId: "G-1NMTP5PZ3S"
+  };
+
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.database();
+  const cases = [];
+  const alertShownFor = new Set();
+  let sortAscending = true;
+
+  firebase.database().ref("cases").orderByChild("createdAt").on("value", snapshot => {
+    cases.length = 0;
+    snapshot.forEach(childSnapshot => {
+      const c = childSnapshot.val();
+      c.visitDateTime = new Date(c.visitDateTime);
+      c.createdAt = c.createdAt ? new Date(c.createdAt) : null;
+      cases.push(c);
+
+      const now = new Date().getTime();
+      const timeDiff = c.visitDateTime.getTime() - now;
+      if (c.triggered && !c.acknowledged && !alertShownFor.has(c.caseNumber)) {
+        showAlert(`\u23F0 CE Visit for Case #${c.caseNumber} is in less than 10 minutes!`);
+        alertShownFor.add(c.caseNumber);
+      }
+      if (!c.triggered && !c.acknowledged && timeDiff <= 10 * 60 * 1000 && timeDiff > 0) {
+        firebase.database().ref("cases/" + c.caseNumber).update({ triggered: true });
+      }
+    });
+    sortCases();
+    updateTable();
+  });
+
+  function addCase() {
+    const caseNumber = document.getElementById("caseNumber").value.trim();
+    const dateStr = document.getElementById("visitDate").value.trim();
+    const time = document.getElementById("visitTime").value;
+    const remarks = document.getElementById("remarks").value.trim();
+    if (!/^\d{10}$/.test(caseNumber)) {
+      alert("Case number must be a 10-digit number.");
+      return;
+    }
+    const dateMatch = dateStr.match(/^(\d{2})\s*\/\s*(\d{2})$/);
+    if (!dateMatch) {
+      alert("Date must be in DD / MM format.");
+      return;
+    }
+    const day = dateMatch[1];
+    const month = dateMatch[2];
+    if (!time) {
+      alert("Time must be filled.");
+      return;
+    }
+    const year = new Date().getFullYear();
+    const visitDateTime = new Date(`${year}-${month}-${day}T${time}`);
+    if (isNaN(visitDateTime.getTime())) {
+      alert("Invalid date/time.");
+      return;
+    }
+    const newCase = {
+      caseNumber,
+      visitDateTime: visitDateTime.toISOString(),
+      remarks,
+      acknowledged: false,
+      triggered: false,
+      engineer: "",
+      createdAt: firebase.database.ServerValue.TIMESTAMP
+    };
+    firebase.database().ref("cases/" + caseNumber).set(newCase);
+    clearForm();
+  }
+
+  function clearForm() {
+    document.getElementById("caseNumber").value = "";
+    document.getElementById("visitDate").value = "";
+    document.getElementById("visitTime").value = "";
+    document.getElementById("remarks").value = "";
+  }
+
+  function updateTable() {
+    const tbody = document.getElementById("caseTableBody");
+    tbody.innerHTML = "";
+    cases.forEach(c => {
+      const tr = document.createElement("tr");
+      const acknowledgedText = c.acknowledged ? "Acknowledged" : `<button onclick="manualAcknowledge('${c.caseNumber}')">Acknowledge</button>`;
+      const safeRemarks = (c.remarks || "").replace(/'/g, "\\'");
+      tr.innerHTML = `
+        <td>${c.caseNumber}</td>
+        <td>${c.visitDateTime.toLocaleString("en-IN", { timeZone: "Asia/Kolkata" })}</td>
+        <td class="remarks-cell">
+          <span id="remark-${c.caseNumber}">${c.remarks}</span>
+          <button onclick="editRemark('${c.caseNumber}', '${safeRemarks}')">Edit</button>
+        </td>
+        <td>${acknowledgedText}</td>
+        <td class="remarks-cell">
+  <span id="engineer-${c.caseNumber}">${c.engineer || ""}</span>
+  <button onclick="editEngineer('${c.caseNumber}', '${c.engineer || ""}')">Edit</button>
+</td>
+      `;
+      tbody.appendChild(tr);
+    });
+  }
+
+  async function manualAcknowledge(caseNumber) {
+    const engineer = await promptDropdown("Select engineer:");
+    if (!engineer) return;
+    firebase.database().ref("cases/" + caseNumber).update({
+      acknowledged: true,
+      engineer: engineer
+    });
+  }
+
+  function editRemark(caseNumber, currentRemark) {
+    const newRemark = prompt("Edit remarks:", currentRemark);
+    if (newRemark === null) return;
+    firebase.database().ref("cases/" + caseNumber).update({
+      remarks: newRemark
+    });
+  }
+
+  function sortCases() {
+    cases.sort((a, b) => a.visitDateTime.getTime() - b.visitDateTime.getTime());
+    if (!sortAscending) cases.reverse();
+  }
+
+  function toggleSort() {
+    sortAscending = !sortAscending;
+    sortCases();
+    updateTable();
+    const button = document.querySelector("button[onclick='toggleSort()']");
+    button.textContent = sortAscending ? "Sort by Visit Date 🔽" : "Sort by Visit Date 🔼";
+  }
+
+  function showAlert(message) {
+    document.getElementById("alertText").textContent = message;
+    document.getElementById("alertBox").style.display = "block";
+    const sound = document.getElementById("alertSound");
+    if (sound) {
+      sound.pause();
+      sound.currentTime = 0;
+      sound.play().catch(() => {
+        console.warn("Autoplay failed — user interaction required.");
+      });
+    }
+  }
+
+  async function acknowledgeAlert() {
+    const engineer = await promptDropdown("Select engineer:");
+    if (!engineer) return;
+    cases.forEach(c => {
+      if (c.triggered && !c.acknowledged) {
+        firebase.database().ref("cases/" + c.caseNumber).update({
+          acknowledged: true,
+          engineer: engineer
+        });
+      }
+    });
+    document.getElementById("alertBox").style.display = "none";
+    updateTable();
+  }
+
+  function downloadExcel() {
+    const data = cases.map(c => ({
+      "Case Number": c.caseNumber,
+      "Visit DateTime": c.visitDateTime.toLocaleString("en-IN", { timeZone: "Asia/Kolkata" }),
+      "Remarks": c.remarks,
+      "Acknowledged": c.acknowledged ? "Yes" : "No",
+      "Engineer": c.engineer || ""
+    }));
+    const worksheet = XLSX.utils.json_to_sheet(data);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "CE Visits");
+    XLSX.writeFile(workbook, "CE_Visit_Report.xlsx");
+  }
+
+const engineerList = [
+  "aje.johns1", "anwesh-kumar.sahoo", "ayush.garg1", "chanakya.t-r", "diksha-charduatta.natekar",
+  "divya.lakhe", "gauresh.pundlikrao-khope", "hungsaming.n-h", "imran-mohammad.khan", "ishika-rakesh.bansal",
+  "ishwari.deepak-bhorekar", "manav.mehra", "mrinalc", "naresh-laxman.adpoikar", "nilambari.rajendra-todakari",
+  "raghupathi-raju.addepall", "rajesh.banik", "ruturaj.varne", "sakshi.pore", "satnamsingh.surendrasing-relusinghani",
+  "sejal-sandip.mhadgut", "shraddha-harshitkumar.wakode", "shruti.mishra", "shweta.pujari",
+  "simran.jilani-sayyad", "gavade.suryakant", "swarali.shashank-tantak", "tazeen.gulrez-sayed",
+  "vaishnavi.mahajan", "vinit.takhtani"
+];
+
+
+function editEngineer(caseNumber, currentEngineer) {
+  const dropdown = document.createElement("select");
+  dropdown.innerHTML = engineerList.map(name =>
+    `<option value="${name}" ${name === currentEngineer ? "selected" : ""}>${name}</option>`
+  ).join("");
+  dropdown.onchange = () => {
+    const selected = dropdown.value;
+    firebase.database().ref("cases/" + caseNumber).update({
+      engineer: selected
+    });
+  };
+  const span = document.getElementById(`engineer-${caseNumber}`);
+  span.replaceWith(dropdown);
+}
+
+function promptDropdown(label) {
+  return new Promise(resolve => {
+    const form = document.createElement("form");
+    form.innerHTML = `
+      <label>${label}</label><br>
+      <select id="engDropdown">${engineerList.map(e => `<option value="${e}">${e}</option>`)}</select>
+      <br><br><button type="submit">OK</button>
+    `;
+    const modal = document.createElement("div");
+    modal.style.position = "fixed";
+    modal.style.top = "30%";
+    modal.style.left = "50%";
+    modal.style.transform = "translateX(-50%)";
+    modal.style.background = "white";
+    modal.style.border = "1px solid #ccc";
+    modal.style.padding = "1rem";
+    modal.style.zIndex = "2000";
+    modal.appendChild(form);
+    document.body.appendChild(modal);
+
+    form.onsubmit = e => {
+      e.preventDefault();
+      const selected = document.getElementById("engDropdown").value;
+      document.body.removeChild(modal);
+      resolve(selected);
+    };
+  });
+}
+
+</script>
+<script>
+  document.addEventListener("click", () => {
+    const sound = document.getElementById("alertSound");
+    if (sound) {
+      sound.play().then(() => {
+        sound.pause();
+        sound.currentTime = 0;
+      }).catch(() => {});
+    }
+  }, { once: true });
+
+const engineerList = [
+  "aje.johns1", "anwesh-kumar.sahoo", "ayush.garg1", "chanakya.t-r", "diksha-charduatta.natekar",
+  "divya.lakhe", "gauresh.pundlikrao-khope", "hungsaming.n-h", "imran-mohammad.khan", "ishika-rakesh.bansal",
+  "ishwari.deepak-bhorekar", "manav.mehra", "mrinalc", "naresh-laxman.adpoikar", "nilambari.rajendra-todakari",
+  "raghupathi-raju.addepall", "rajesh.banik", "ruturaj.varne", "sakshi.pore", "satnamsingh.surendrasing-relusinghani",
+  "sejal-sandip.mhadgut", "shraddha-harshitkumar.wakode", "shruti.mishra", "shweta.pujari",
+  "simran.jilani-sayyad", "gavade.suryakant", "swarali.shashank-tantak", "tazeen.gulrez-sayed",
+  "vaishnavi.mahajan", "vinit.takhtani"
+];
+
+
+function editEngineer(caseNumber, currentEngineer) {
+  const dropdown = document.createElement("select");
+  dropdown.innerHTML = engineerList.map(name =>
+    `<option value="${name}" ${name === currentEngineer ? "selected" : ""}>${name}</option>`
+  ).join("");
+  dropdown.onchange = () => {
+    const selected = dropdown.value;
+    firebase.database().ref("cases/" + caseNumber).update({
+      engineer: selected
+    });
+  };
+  const span = document.getElementById(`engineer-${caseNumber}`);
+  span.replaceWith(dropdown);
+}
+
+function promptDropdown(label) {
+  return new Promise(resolve => {
+    const form = document.createElement("form");
+    form.innerHTML = `
+      <label>${label}</label><br>
+      <select id="engDropdown">${engineerList.map(e => `<option value="${e}">${e}</option>`)}</select>
+      <br><br><button type="submit">OK</button>
+    `;
+    const modal = document.createElement("div");
+    modal.style.position = "fixed";
+    modal.style.top = "30%";
+    modal.style.left = "50%";
+    modal.style.transform = "translateX(-50%)";
+    modal.style.background = "white";
+    modal.style.border = "1px solid #ccc";
+    modal.style.padding = "1rem";
+    modal.style.zIndex = "2000";
+    modal.appendChild(form);
+    document.body.appendChild(modal);
+
+    form.onsubmit = e => {
+      e.preventDefault();
+      const selected = document.getElementById("engDropdown").value;
+      document.body.removeChild(modal);
+      resolve(selected);
+    };
+  });
+}
+
+</script>
+</body>
+</html>
